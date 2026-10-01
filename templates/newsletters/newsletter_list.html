@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold mb-1">Curated Newsletters</h2>
+        <p class="text-muted mb-0">Browse recent issues from top publishers and journalists.</p>
+    </div>
+    {% if user.is_journalist or user.is_editor %}
+        <a href="{% url 'newsletter_create' %}" class="btn btn-primary rounded-pill fw-bold">
+            <i class="bi bi-plus-lg me-1"></i>Create Newsletter
+        </a>
+    {% endif %}
+</div>
+
+<div class="row g-4">
+    {% for newsletter in newsletters %}
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 p-4 h-100 d-flex flex-column justify-content-between">
+                <div>
+                    <h4 class="fw-bold text-primary mb-2">{{ newsletter.title }}</h4>
+                    <p class="text-muted small mb-3">
+                        Curated by <strong>{{ newsletter.author.username }}</strong> on {{ newsletter.created_at|date:"M d, Y" }}
+                    </p>
+                    <p class="text-secondary mb-3">{{ newsletter.description|truncatewords:25 }}</p>
+                </div>
+                <div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'newsletter_detail' newsletter.pk %}" class="btn btn-sm btn-primary rounded-pill fw-bold">
+                                Read Newsletter ({{ newsletter.articles.count }} Articles)
+                            </a>
+                        {% else %}
+                            <a href="{% url 'login' %}?next={% url 'newsletter_detail' newsletter.pk %}" class="btn btn-sm btn-outline-primary rounded-pill fw-bold">
+                                <i class="bi bi-lock-fill me-1"></i>Log in to Read ({{ newsletter.articles.count }} Articles)
+                            </a>
+                        {% endif %}
+
+                        {% if user == newsletter.author or user.is_editor %}
+                            <div class="btn-group">
+                                <a href="{% url 'newsletter_edit' newsletter.pk %}" class="btn btn-sm btn-outline-secondary rounded-pill me-1">Edit</a>
+                                <a href="{% url 'newsletter_delete' newsletter.pk %}" class="btn btn-sm btn-outline-danger rounded-pill">Delete</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <p class="text-muted">No newsletters have been created yet.</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

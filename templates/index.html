@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-3">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+        <div>
+            <h2 class="fw-bold mb-1"><i class="bi bi-newspaper text-primary me-2"></i>Latest Approved News</h2>
+            <p class="text-muted small mb-0">Stay updated with top verified stories.</p>
+        </div>
+    </div>
+
+    <!-- Articles Grid -->
+    {% if articles %}
+        <div class="row g-4">
+            {% for article in articles %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm border-0 d-flex flex-column justify-content-between">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill">
+                                    {{ article.publisher.name|default:"General News" }}
+                                </span>
+                                <small class="text-muted fs-7">{{ article.created_at|date:"M d, Y" }}</small>
+                            </div>
+                            
+                            <h5 class="card-title fw-bold text-dark mt-2 mb-2">{{ article.title }}</h5>
+                            <p class="card-text text-secondary small">
+                                {{ article.content|truncatewords:25 }}
+                            </p>
+                        </div>
+                        
+                        <div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3 d-flex justify-content-between align-items-center">
+                            <small class="text-muted">By <strong>{{ article.author.username }}</strong></small>
+                            <a href="{% url 'article_detail' article.id %}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                Read More <i class="bi bi-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <!-- Empty State -->
+        <div class="card shadow-sm border-0 py-5 text-center my-4">
+            <div class="card-body">
+                <i class="bi bi-journal-x display-4 text-muted mb-3 d-block"></i>
+                <h4 class="fw-bold text-dark">No Approved Articles Available</h4>
+                <p class="text-muted small">Check back later or log in as a Journalist/Editor to submit and approve content.</p>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
