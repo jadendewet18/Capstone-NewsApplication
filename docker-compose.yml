@@ -7,7 +7,8 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: news_db
-      MYSQL_ROOT_PASSWORD: n3D4J180106B
+    MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-change_me_in_env}  
+    
     ports:
       - "3306:3306"
     volumes:
