@@ -11,6 +11,8 @@ The platform supports three user roles — **readers**, **journalists**, and **e
 - Editor dashboard for reviewing, approving, or rejecting article drafts
 - Public newsfeed displaying only approved articles
 - Django REST Framework API endpoints with token authentication
+- Dynamic database configuration via environment variables
+- Organized app template directory layout inside `templates/news_app/`
 - Automated signals for event logging and background actions
 - Automated unit test suite verifying permissions, workflows, and API views
 - Automated Sphinx documentation generated directly from Python docstrings
@@ -21,6 +23,20 @@ The platform supports three user roles — **readers**, **journalists**, and **e
 - Git
 - Docker Desktop installed and running (for Docker setup)
 - Python 3.10+ (for local setup without Docker)
+
+## Environment Variables Configuration
+
+The Django backend dynamically configures its database connection via standard environment variables:
+
+| Variable | Description | Default |
+| :--- | :--- | :--- |
+| `DB_NAME` | MySQL Database Name | `news_db` |
+| `DB_USER` | MySQL Username | `root` |
+| `DB_PASSWORD` | MySQL Password | `""` |
+| `DB_HOST` | MySQL Host Address | `127.0.0.1` |
+| `DB_PORT` | MySQL Database Port | `3306` |
+
+When running with Docker Compose, these environment variables are passed directly into the `web` container to seamlessly connect to the containerized MySQL `db` service.
 
 ## Quick Start (Using Docker)
 
@@ -33,10 +49,15 @@ The platform supports three user roles — **readers**, **journalists**, and **e
 
 2. **Configure environment variables / passwords:**
 
-   Create a `.env` file in the root directory (or set environment variables) with your database password:
+   Create a `.env` file in the root directory (or pass variables via docker-compose) setting your database credentials:
 
 ```env
    MYSQL_ROOT_PASSWORD=your_secure_password
+   DB_NAME=news_db
+   DB_USER=root
+   DB_PASSWORD=your_secure_password
+   DB_HOST=db
+   DB_PORT=3306
 ```
 
 3. **Start the application with Docker Compose:**
@@ -83,7 +104,7 @@ The platform supports three user roles — **readers**, **journalists**, and **e
 
 4. **Configure database & apply migrations:**
 
-   Ensure MySQL is running locally and database credentials are set, then run:
+   Ensure MySQL is running locally and database credentials match your environment settings, then run:
 
 ```bash
    python manage.py makemigrations
@@ -106,8 +127,7 @@ Sphinx auto-generates project documentation directly from module, class, and vie
 1. **Build the HTML documentation:**
 
 ```bash
-   cd docs
-   python -m sphinx . _build/html
+   python -m sphinx docs docs/_build/html
 ```
 
 2. **View the documentation:**
