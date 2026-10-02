@@ -54,13 +54,13 @@ def home_view(request):
     approved_articles = Article.objects.filter(approved=True).order_by(
         '-created_at'
     )
-    return render(request, 'index.html', {'articles': approved_articles})
+    return render(request, 'news_app/index.html', {'articles': approved_articles})
 
 
 def article_detail_view(request, pk):
     """Render detailed single-article view for approved news items."""
     article = get_object_or_404(Article, pk=pk)
-    return render(request, 'article_detail.html', {'article': article})
+    return render(request, 'news_app/article_detail.html', {'article': article})
 
 
 # =============================================================================
@@ -124,7 +124,7 @@ def dashboard_view(request):
             approved=False
         ).order_by('-created_at')
 
-    return render(request, 'dashboard.html', context)
+    return render(request, 'news_app/dashboard.html', context)
 
 
 @login_required
@@ -146,7 +146,7 @@ def article_edit_view(request, pk):
     else:
         form = ArticleForm(instance=article)
 
-    return render(request, 'article_form.html', {'form': form, 'article': article})
+    return render(request, 'news_app/article_form.html', {'form': form, 'article': article})
 
 
 @login_required
@@ -164,7 +164,7 @@ def article_delete_view(request, pk):
         messages.success(request, f"Article '{title}' deleted successfully.")
         return redirect('dashboard')
 
-    return render(request, 'article_confirm_delete.html', {'article': article})
+    return render(request, 'news_app/article_confirm_delete.html', {'article': article})
 
 
 # =============================================================================
@@ -174,14 +174,14 @@ def article_delete_view(request, pk):
 def newsletter_list_view(request):
     """Public view: List all available newsletters with article previews."""
     newsletters = Newsletter.objects.all().order_by('-created_at')
-    return render(request, 'newsletters/newsletter_list.html', {'newsletters': newsletters})
+    return render(request, 'news_app/newsletter_list.html', {'newsletters': newsletters})
 
 
 @login_required
 def newsletter_detail_view(request, pk):
     """Protected view: Full newsletter content and attached articles (Members Only)."""
     newsletter = get_object_or_404(Newsletter, pk=pk)
-    return render(request, 'newsletters/newsletter_detail.html', {'newsletter': newsletter})
+    return render(request, 'news_app/newsletter_detail.html', {'newsletter': newsletter})
 
 
 @login_required
@@ -203,7 +203,7 @@ def newsletter_create_view(request):
     else:
         form = NewsletterForm()
 
-    return render(request, 'newsletters/newsletter_form.html', {'form': form, 'title': 'Create Newsletter'})
+    return render(request, 'news_app/newsletter_form.html', {'form': form, 'title': 'Create Newsletter'})
 
 
 @login_required
@@ -224,7 +224,7 @@ def newsletter_edit_view(request, pk):
     else:
         form = NewsletterForm(instance=newsletter)
 
-    return render(request, 'newsletters/newsletter_form.html', {'form': form, 'title': 'Edit Newsletter'})
+    return render(request, 'news_app/newsletter_form.html', {'form': form, 'title': 'Edit Newsletter'})
 
 
 @login_required
@@ -242,7 +242,7 @@ def newsletter_delete_view(request, pk):
         messages.success(request, f"Newsletter '{title}' deleted successfully.")
         return redirect('newsletter_list')
 
-    return render(request, 'newsletters/newsletter_confirm_delete.html', {'newsletter': newsletter})
+    return render(request, 'news_app/newsletter_confirm_delete.html', {'newsletter': newsletter})
 
 
 # =============================================================================
@@ -255,7 +255,7 @@ def publisher_list_view(request):
     journalists = CustomUser.objects.filter(role=CustomUser.Role.JOURNALIST)
     return render(
         request,
-        'publishers/publisher_list.html',
+        'news_app/publisher_list.html',
         {'publishers': publishers, 'journalists': journalists},
     )
 
@@ -276,7 +276,7 @@ def publisher_create_view(request):
     else:
         form = PublisherForm()
 
-    return render(request, 'publishers/publisher_form.html', {'form': form})
+    return render(request, 'news_app/publisher_form.html', {'form': form})
 
 
 @login_required
