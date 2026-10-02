@@ -1,3 +1,5 @@
+import os
+
 """
 Django settings for news_project project.
 
@@ -68,16 +70,14 @@ WSGI_APPLICATION = 'news_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'news_db',
-        'USER': 'root',
-        'PASSWORD': 'n3D4J180106B',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
+        'NAME': os.environ.get('DB_NAME', 'news_db'),
+        'USER': os.environ.get('DB_USER', 'root'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', ''),
+        'HOST': os.environ.get('DB_HOST', '127.0.0.1'),
+        'PORT': os.environ.get('DB_PORT', '3306'),
     }
 }
+
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
