@@ -36,6 +36,22 @@
 <div class="toctree-wrapper compound">
 </div>
 </section>
+<section id="database-environment-configuration">
+<h1>Database &amp; Environment Configuration<a class="headerlink" href="#database-environment-configuration" title="Link to this heading">¶</a></h1>
+<p>The application dynamically configures its database settings using environment
+variables. When deployed via Docker Compose, these variables are injected into
+the web container to establish a connection with the MySQL database service.</p>
+<dl class="simple">
+<dt>Available Environment Variables:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">DB_NAME</span></code>: Name of the MySQL database (default: <code class="docutils literal notranslate"><span class="pre">news_db</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DB_USER</span></code>: Database username (default: <code class="docutils literal notranslate"><span class="pre">root</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DB_PASSWORD</span></code>: Database password (default: <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DB_HOST</span></code>: Database host address (default: <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DB_PORT</span></code>: Database port (default: <code class="docutils literal notranslate"><span class="pre">3306</span></code>)</p></li>
+</ul>
+</dd>
+</dl>
+</section>
 <section id="module-news_app.models">
 <span id="news-app-models"></span><h1>News App Models<a class="headerlink" href="#module-news_app.models" title="Link to this heading">¶</a></h1>
 <p>Database models for the Capstone News Application.</p>
